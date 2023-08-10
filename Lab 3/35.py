@@ -10,7 +10,7 @@ def bisection_method():
     x0 = 50
     x1 = -50
 
-    for i in range(20):
+    for i in range(500):
         fa = f(x0)
         fb = f(x1)
         x2 = (x0 + x1) / 2
@@ -21,7 +21,9 @@ def bisection_method():
         else:
             x0 = x2
 
-        print(x2)
+        print(
+            f"i={i} x0={x0:.6f} x1={x1:.6f} x2={x2:.6f} f(x0)={fa:.6f} f(x1)={fb:.6f} f(x2)={fc:.6f}"
+        )
 
 
 def false_method():
@@ -34,14 +36,16 @@ def false_method():
         x2 = x2_gen(x0, fa, x1, fb)
         fc = f(x2)
 
-        print(x2)
-
-        if fc < 0:
+        if fc * fa < 0:
             x1 = x2
-        else:
+        elif fc * fb < 0:
             x0 = x2
+
+        print(
+            f"i={i} x0={x0:.6f} x1={x1:.6f} x2={x2:.6f} f(x0)={fa:.6f} f(x1)={fb:.6f} f(x2)={fc:.6f}"
+        )
 
 
 if __name__ == "__main__":
-    #    bisection_method()
-    false_method()
+    print(false_method())
+    print(bisection_method())
