@@ -1,3 +1,15 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+i_vals1 = range(26)
+i_vals2 = range(11000)
+err_vals = []
+re_vals = []
+err_vals2 = []
+re_vals2 = []
+
+
 def f(x):
     return x * x * x - x - 1
 
@@ -10,42 +22,106 @@ def bisection_method():
     x0 = 50
     x1 = -50
 
-    for i in range(500):
+    for i in range(11000):
         fa = f(x0)
         fb = f(x1)
         x2 = (x0 + x1) / 2
         fc = f(x2)
+
+        err = x1 - x2
+        if x2:
+            re = err / x2
+        else:
+            re = 0
+
+        err_vals.append(err)
+        re_vals.append(re)
 
         if fc < 0:
             x1 = x2
         else:
             x0 = x2
 
-        print(
-            f"i={i} x0={x0:.6f} x1={x1:.6f} x2={x2:.6f} f(x0)={fa:.6f} f(x1)={fb:.6f} f(x2)={fc:.6f}"
-        )
+    return x2
+    # print(
+    #     f"i={i} x0={x0:.6f} x1={x1:.6f} x2={x2:.6f} f(x0)={fa:.6f} f(x1)={fb:.6f} f(x2)={fc:.6f}"
+    # )
 
 
 def false_method():
     x0 = 50
     x1 = -50
 
-    for i in range(10000):
+    for i in range(11000):
         fa = f(x0)
         fb = f(x1)
         x2 = x2_gen(x0, fa, x1, fb)
         fc = f(x2)
 
-        if fc * fa < 0:
+        err = x1 - x2
+
+        if err >= 1 or err <= -1:
+            err = 0
+
+        re = err / x2
+
+        err_vals2.append(err)
+        re_vals2.append(re)
+
+        # print(
+        #     f"i={i} x0={x0:.6f} x1={x1:.6f} x2={x2:.6f} f(x0)={fa:.6f} f(x1)={fb:.6f} f(x2)={fc:.6f} err={err:.6f} re={re:.6f}"
+        # )
+
+        if fc < 0:
             x1 = x2
-        elif fc * fb < 0:
+        elif fc < 0:
             x0 = x2
 
-        print(
-            f"i={i} x0={x0:.6f} x1={x1:.6f} x2={x2:.6f} f(x0)={fa:.6f} f(x1)={fb:.6f} f(x2)={fc:.6f}"
-        )
+    return x2
 
 
 if __name__ == "__main__":
-    print(false_method())
-    print(bisection_method())
+    # print(f"{false_method():.6f}")
+    # print(f"{bisection_method():.6f}")
+    false_method()
+    bisection_method()
+
+    plt.bar(i_vals2, err_vals)
+    plt.xlabel("Iteration No.")
+    plt.ylabel("Apprx. Error")
+    plt.title("Bisection Method Approx. Error")
+    plt.show()
+
+    plt.bar(i_vals2, re_vals)
+    plt.xlabel("Iteration No.")
+    plt.ylabel("Relative Error")
+    plt.title("Bisection Method Relative Approx. Error")
+    plt.show()
+
+    plt.bar(i_vals2, err_vals2)
+    plt.xlabel("Iteration No.")
+    plt.ylabel("Apprx. Error")
+    plt.title("False Method Approx. Error")
+    plt.show()
+
+    plt.bar(i_vals2, re_vals2)
+    plt.xlabel("Iteration No.")
+    plt.ylabel("Relative Error")
+    plt.title("False Method Relative Approx. Error")
+    plt.show()
+
+    plt.plot(i_vals2, err_vals, label="Secant Method")
+    plt.plot(i_vals2, err_vals2, label="Newton-Raphson Method")
+    plt.xlabel("Iteration No.")
+    plt.ylabel("Apprx. Error")
+    plt.title("Secant vs Newton-Raphson's method approx. error comparison")
+    plt.legend()
+    plt.show()
+
+    plt.plot(i_vals2, re_vals, label="Secant Method")
+    plt.plot(i_vals2, re_vals2, label="Newton-Raphson Method")
+    plt.xlabel("Iteration No.")
+    plt.ylabel("Error")
+    plt.title("Secant vs Newton-Raphson's method Relative approx. error comparison")
+    plt.legend()
+    plt.show()
