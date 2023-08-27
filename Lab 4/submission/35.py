@@ -29,8 +29,8 @@ def linear_iteration(n, matrix, result, tolerance=1e-8):
     iteration = 0
     while True:
         for i in range(n):
-            total_sum = np.dot(matrix[i], x0) - matrix[i][i] * x0[i]
-            x1[i] = (result[i] - total_sum) / matrix[i][i]
+            total_sum = np.dot(matrix[i], x1) - matrix[i][i] * x1[i]
+            x0[i] = (result[i] - total_sum) / matrix[i][i]
 
         sum0 = np.sum(x0)
         sum1 = np.sum(x1)
@@ -55,7 +55,7 @@ def linear_iteration(n, matrix, result, tolerance=1e-8):
         if re < tolerance:
             break
 
-        x0 = x1.copy()
+        x1 = x0.copy()
         iteration += 1
 
 
