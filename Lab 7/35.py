@@ -69,12 +69,25 @@ if __name__ == "__main__":
     y0 = 2.0
     z0 = 3.0
 
-    for i in range(5):
+    for i in range(1000):
         result = Multivariable_Newton_Raphson(x0, y0, z0)
-        print(result)
         x1, y1, z1 = result[0], result[1], result[2]
 
-        d = abs(x0 + y0 + z0 - x1 - y1 - z1)
+        d1 = x0 + y0 + z0
+
+        d2 = x1 + y1 + z1
+
+        ae = abs(d2 - d1)
+
+        rae = ae / d2
+
+        print(
+            f"Iteration {i}: \n{result}\nApprox. Error: {ae:.6f} Rel Approx. Error: {rae:.6f}\n"
+        )
+
         x0 = x1
         y0 = y1
         z0 = z1
+
+        if ae < 10e-8:
+            break
